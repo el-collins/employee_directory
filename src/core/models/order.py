@@ -1,7 +1,7 @@
 from sqlmodel import SQLModel, Field
 from datetime import datetime
 import uuid
-from src.core.schemas.order_schema import OrderStatus
+from core.schemas.order_schema import OrderStatus
 
 
 
