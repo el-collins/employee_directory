@@ -3,12 +3,18 @@
 ## Overview
 This project implements a RESTful API for managing an employee directory and processing customer order data. It's built using FastAPI and SQLAlchemy, following clean architecture principles and best practices.
 
+## Requirements
+- Python 3.8+
+- mySQL+
+- Poetry (optional)
+- Docker (optional)
+
 ## Entity-Relationship Diagram
 ```mermaid
 erDiagram
     Employee ||--o{ Department : "belongs_to"
     Employee {
-        int id PK
+        uuid id PK
         string first_name
         string last_name
         string email
@@ -19,8 +25,8 @@ erDiagram
     
     Order ||--o{ Customer : "placed_by"
     Order {
-        int id PK
-        int customer_id FK
+        uuid id PK
+        uuid customer_id FK
         decimal amount
         string status
         datetime order_date
@@ -28,28 +34,36 @@ erDiagram
     }
     
     Customer {
-        int id PK
+        uuid id PK
         string name
         string email
     }
 ```
 
 ## Setup Instructions
+
+### Local Development
 1. Clone the repository
 ```bash
 git clone https://github.com/yourusername/employee-orders-api.git
 cd employee-orders-api
 ```
 
-2. Create and activate virtual environment [You can you venv or poetry]
+2. Create and activate virtual environment
 ```bash
+# Using venv
 python -m venv .venv
 source .venv/bin/activate  # On Windows: .\venv\Scripts\activate
+
+# OR using Poetry
+poetry install
+poetry shell
 ```
 
 3. Install dependencies
 ```bash
 pip install -r requirements.txt
+# OR using Poetry: poetry install
 ```
 
 4. Set up environment variables
@@ -71,33 +85,73 @@ uvicorn src.main:app --reload
 7. Run tests
 ```bash
 pytest tests/
+```
 
-## API Endpoints
+### Docker Setup (Optional)
+```bash
+# Build the image
+docker build -t employee-orders-api .
+
+# Run the container
+docker run -p 8000:8000 employee-orders-api
+```
+
+## API Documentation
 
 ### Employee Directory
-- GET /api/v1/employees - List all employees
-- GET /api/v1/employees/{id} - Get employee details
-- POST /api/v1/employees - Create new employee
-- PUT /api/v1/employees/{id} - Update employee
-- DELETE /api/v1/employees/{id} - Delete employee
+| Method | Endpoint | Description | Request Body | Response |
+|--------|----------|-------------|--------------|-----------|
+| GET | /api/v1/employees | List all employees | - | Array of employees |
+| GET | /api/v1/employees/{id} | Get employee details | - | Employee object |
+| POST | /api/v1/employees | Create new employee | Employee data | Created employee |
+| PUT | /api/v1/employees/{id} | Update employee | Updated fields | Updated employee |
+| DELETE | /api/v1/employees/{id} | Delete employee | - | 204 No Content |
 
 ### Order Management
-- GET /api/v1/orders/revenue - Get revenue in date range
-- GET /api/v1/orders - List all orders
-- GET /api/v1/orders/{id} - Get order details
+| Method | Endpoint | Description | Request Body | Response |
+|--------|----------|-------------|--------------|-----------|
+| GET | /api/v1/orders/revenue | Get revenue in date range | start_date, end_date | Revenue data |
+| GET | /api/v1/orders | List all orders | - | Array of orders |
+| GET | /api/v1/orders/{id} | Get order details | - | Order object |
+
+### Interactive API Documentation
+Once the application is running, you can access:
+- Swagger UI: http://localhost:8000/docs
+- ReDoc: http://localhost:8000/redoc
 
 ## Project Structure
-- src/: Main application code
-  - api/: API routes and controllers
-  - core/: Domain models and schemas
-  - services/: Business logic
-  - database/: Database configurations
-- tests/: Unit and integration tests
+```
+src/
+├── api/           # API routes and controllers
+│   ├── routes/
+│   └── dependencies/
+├── core/          # Domain models and schemas
+│   ├── models/
+│   └── schemas/
+├── services/      # Business logic
+├── database/      # Database configurations
+└── main.py        # Application entry point
+
+tests/             # Unit and integration tests
+├── api/
+├── services/
+└── conftest.py
+```
 
 ## Design Decisions
-- Clean Architecture pattern
-- Repository pattern for data access
-- Service layer for business logic
-- Dependency injection for better testability
-- Pydantic for data validation
-- PostgreSQL for data persistence
+- **Clean Architecture**: Separation of concerns between layers
+- **Repository Pattern**: Abstraction of data persistence
+- **Service Layer**: Business logic encapsulation
+- **Dependency Injection**: Better testability and maintainability
+- **Pydantic Models**: Request/Response validation
+- **mySQL**: ACID compliance and robust feature set
+
+## Contributing
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a Pull Request
+
+## License
+This project is licensed under the MIT License - see the LICENSE file for details.
