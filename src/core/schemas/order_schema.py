@@ -1,15 +1,17 @@
 from pydantic import BaseModel
 from datetime import datetime
+from uuid import UUID
+
 
 class OrderCreate(BaseModel):
-    customer_id: int
+    customer_id: UUID
     amount: float
     status: str
     order_date: datetime
 
 class OrderResponse(BaseModel):
-    id: int
-    customer_id: int
+    id: UUID
+    customer_id: UUID
     amount: float
     status: str
     order_date: datetime

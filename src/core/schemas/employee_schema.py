@@ -1,5 +1,8 @@
+from typing import Optional
 from pydantic import BaseModel
 from datetime import datetime
+from uuid import UUID
+
 
 class EmployeeCreate(BaseModel):
     first_name: str
@@ -8,13 +11,13 @@ class EmployeeCreate(BaseModel):
     department: str
 
 class EmployeeUpdate(BaseModel):
-    first_name: str
-    last_name: str
-    email: str
-    department: str
+    first_name: Optional[str] = None
+    last_name: Optional[str] = None
+    email: Optional[str] = None
+    department: Optional[str] = None
 
 class EmployeeResponse(BaseModel):
-    id: int
+    id: UUID
     first_name: str
     last_name: str
     email: str

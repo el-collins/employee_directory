@@ -1,10 +1,11 @@
 from sqlmodel import SQLModel, Field
 from datetime import datetime
-from typing import Optional
+import uuid
+
 
 class Order(SQLModel, table=True):
-    id: int = Field(default=None, primary_key=True)
-    customer_id: int
+    id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
+    customer_id: uuid.UUID 
     amount: float
     status: str
     order_date: datetime

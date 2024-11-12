@@ -1,8 +1,10 @@
 from sqlmodel import SQLModel, Field
 from datetime import datetime
+import uuid
+
 
 class Employee(SQLModel, table=True):
-    id: int = Field(default=None, primary_key=True)
+    id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
     first_name: str
     last_name: str
     email: str = Field(index=True, unique=True)
