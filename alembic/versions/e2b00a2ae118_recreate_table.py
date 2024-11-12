@@ -1,8 +1,8 @@
-"""Make updated_at non-optional
+"""recreate table
 
-Revision ID: 6bde876c05e8
-Revises: f99c726b982a
-Create Date: 2024-11-12 09:55:52.732050
+Revision ID: e2b00a2ae118
+Revises: ab4bcaea65e8
+Create Date: 2024-11-12 17:12:10.637555
 
 """
 from typing import Sequence, Union
@@ -12,8 +12,8 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = '6bde876c05e8'
-down_revision: Union[str, None] = 'f99c726b982a'
+revision: str = 'e2b00a2ae118'
+down_revision: Union[str, None] = 'ab4bcaea65e8'
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
 

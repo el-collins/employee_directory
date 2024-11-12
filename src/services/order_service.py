@@ -58,3 +58,12 @@ class OrderService:
         except Exception as e:
             self.db.rollback()
             raise ValueError(f"Failed to create order: {str(e)}")
+        
+    def get_orders(self):
+        """
+        Get all orders.
+        
+        Returns:
+            List[Order]: List of all orders
+        """
+        return self.db.query(Order).all()
